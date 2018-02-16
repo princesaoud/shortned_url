@@ -11,40 +11,9 @@
 |
 */
 
-Route::get('/', function () {
 
-    return view('welcome');
-});
+Route::get('/', 'UrlsController@create');
 
-Route::post('/', function(){
+Route::post('/', 'UrlsController@store');
 
-    $url = request('url');
-
-    Validator::make(compact('url'), ['url' => 'required|url'])->validate();
-
-    $response = App\urls::where('url',$url)->first();
-    if($response){
-      return view('result')->withShortened($response->shortened);
-    }
-
-
-    $row = App\urls::create([
-      'url'=> $url,
-      'shortened'=> App\urls::getUniqueUrl()
-    ]);
-
-    if($row){
-      return view('result')->withShortened($row->shortened);
-    }
-    return view('result')->withShortened('Error encountered during the shortening process !!! try again please.');
-});
-
-Route::get('/{shortened}', function($shortened)
-{
-  $url = App\urls::whereShortened($shortened)->first();
-
-  if(!$url){
-    return redirect('/');
-  }
-  return redirect($url->url);
-});
+Route::get('/{shortened}', 'UrlsController@show');

@@ -8,7 +8,7 @@
                 <div class="links">
                     <form class="" method="post">
                       {{csrf_field() }}
-                      <input type="text" name="url" placeholder="Enter your url here !!!" value="">
+                      <input type="text" name="url" placeholder="Enter your url here !!!" value="{{old('url')}}">
                       {!! $errors->first('url','<p> :message </p>') !!}
                       <input type="submit" name="" value="Shorten your url">
                     </form>
